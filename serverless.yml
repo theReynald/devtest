@@ -1,0 +1,36 @@
+service: loop-sample-cloud
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  memorySize: 256
+  timeout: 30
+  environment:
+    NODE_ENV: production
+
+functions:
+  loopSample:
+    handler: dist/lambda.handler
+    description: Cloud-ready TypeScript loop sample
+    events:
+      - http:
+          path: /execute
+          method: post
+          cors: true
+      - http:
+          path: /execute
+          method: get
+          cors: true
+
+package:
+  individually: true
+  patterns:
+    - '!node_modules/**'
+    - '!*.ts'
+    - 'dist/**'
+    - 'package.json'
+
+plugins:
+  - serverless-plugin-typescript
