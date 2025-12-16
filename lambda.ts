@@ -53,7 +53,9 @@ export async function handler(event: LambdaEvent): Promise<LambdaResponse> {
 
     if (operation === 'countdown' || operation === 'both') {
         const start = event.start !== undefined ? event.start : 5;
-        result.countdownOperation = countdownWhileLoop(start);
+        const startNum = typeof start === 'string' ? parseInt(start, 10) : start;
+        const validStart = !isNaN(startNum) ? startNum : 5;
+        result.countdownOperation = countdownWhileLoop(validStart);
     }
 
     return {

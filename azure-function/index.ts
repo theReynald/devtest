@@ -59,7 +59,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
 
     if (operation === 'countdown' || operation === 'both') {
-        result.countdownOperation = countdownWhileLoop(parseInt(start));
+        const startNum = typeof start === 'string' ? parseInt(start, 10) : start;
+        const validStart = !isNaN(startNum) ? startNum : 5;
+        result.countdownOperation = countdownWhileLoop(validStart);
     }
 
     context.res = {

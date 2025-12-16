@@ -55,8 +55,9 @@ export const loopSample = (req: Request, res: Response) => {
     }
 
     if (operation === 'countdown' || operation === 'both') {
-        const startNum = typeof start === 'string' ? parseInt(start) : start;
-        result.countdownOperation = countdownWhileLoop(startNum);
+        const startNum = typeof start === 'string' ? parseInt(start, 10) : start;
+        const validStart = !isNaN(startNum) ? startNum : 5;
+        result.countdownOperation = countdownWhileLoop(validStart);
     }
 
     res.status(200).json({
