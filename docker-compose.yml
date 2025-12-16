@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  loop-sample:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: loop-sample-cloud
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('healthy')"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loop-sample-cloud
+  labels:
+    app: loop-sample-cloud
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loop-sample-cloud
+  template:
+    metadata:
+      labels:
+        app: loop-sample-cloud
+    spec:
+      containers:
+      - name: loop-sample
+        image: loop-sample-cloud:1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          exec:
+            command:
+            - node
+            - -e
+            - console.log('healthy')
+          initialDelaySeconds: 5
+          periodSeconds: 30
+        readinessProbe:
+          exec:
+            command:
+            - node
+            - -e
+            - console.log('healthy')
+          initialDelaySeconds: 5
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loop-sample-service
+spec:
+  selector:
+    app: loop-sample-cloud
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer

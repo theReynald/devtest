@@ -1,0 +1,23 @@
+{
+  "name": "loop-sample-cloud",
+  "version": "1.0.0",
+  "description": "Cloud-ready TypeScript loop sample",
+  "main": "dist/loop_sample.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/loop_sample.js",
+    "dev": "ts-node loop_sample.ts"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "serverless-plugin-typescript": "^2.1.5",
+    "ts-node": "^10.9.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
